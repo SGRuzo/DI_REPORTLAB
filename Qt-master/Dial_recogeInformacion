@@ -1,0 +1,38 @@
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QDial, QLabel
+import sys
+
+class EjemploDial(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Lectura de QDial")
+        self.resize(300, 200)
+
+        layout = QVBoxLayout()
+
+        # 1. Crear el Dial
+        self.dial = QDial()
+        self.dial.setMinimum(0)
+        self.dial.setMaximum(100)
+        self.dial.setValue(25)  # Valor inicial
+        self.dial.setNotchesVisible(True) # Ver las marcas
+
+        # 2. Crear una etiqueta para mostrar el valor
+        self.label = QLabel(f"Valor actual: {self.dial.value()}")
+
+        # 3. CONECTAR la señal valueChanged a una función (slot)
+        self.dial.valueChanged.connect(self.actualizar_valor)
+
+        layout.addWidget(self.dial)
+        layout.addWidget(self.label)
+        self.setLayout(layout)
+
+    def actualizar_valor(self, valor):
+        # Esta función recibe automáticamente el 'int' del dial
+        self.label.setText(f"Valor actual: {valor}")
+        print(f"El dial está en: {valor}")
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    ventana = EjemploDial()
+    ventana.show()
+    sys.exit(app.exec())
